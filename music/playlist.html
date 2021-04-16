@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="high=device-high,initial-scale=1 ">
+		<title>HTML5 Audio Player with Playlist by Tean</title>
+       
+		<link rel="stylesheet" type="text/css" href="css/jquery.jscrollpane.css" media="all" /><!-- scroll in playlist -->
+       
+        <link rel="stylesheet" type="text/css" href="css/jquery.selectbox.css" /> <!-- playlist selector dropdown --> 
+        <link rel="stylesheet" type="text/css" href="css/html5audio_default.css" />
+		<link rel="stylesheet" type="text/css" href="css/html5audio_playlist_selector_with_scroll.css" /> 
+        
+        <script type="text/javascript" src="js/swfobject.js"></script><!-- flash backup --> 
+        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script><!-- jquery ui sortable/draggable -->
+        <!--<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>&lt;!&ndash; mobile drag/sort &ndash;&gt;-->
+        <script type="text/javascript" src="js/jquery.mousewheel.min.js"></script><!-- scroll in playlist -->
+        <script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script><!-- scroll in playlist -->
+        <script type="text/javascript" src="js/jquery.selectbox-0.2.js"></script><!-- playlist selector dropdown -->
+        <script type="text/javascript" src="js/id3-minimized.js"></script><!-- id3 tags -->
+        <script type="text/javascript" src="js/jquery.html5audio.min.js"></script>
+        <script type="text/javascript" src="js/jquery.html5audio.func.js"></script>
+        <script type="text/javascript" src="js/jquery.html5audio.settings_playlist_selector_with_scroll.js"></script>
+        
+	</head>
+    <body>
+
+    <!--Gambar Header Offline No Link Cukup ganti gambar saja tidak perlu kasih link-->
+    <p><strong><img src="./image/ImgaeHeader.png" alt="" width="100%" height="100%" /></strong></p>
+
+
+        <div id="componentWrapper">
+        
+       		 <div class="playerHolder">
+             
+            	  <!-- song name -->
+                  <div class="player_mediaName_Mask">
+                 	  <div class="player_mediaName"></div>
+                  </div>
+                  
+                  <!-- song time -->
+                  <div class="player_mediaTime">
+                  	  <div class="player_mediaTime_current">0:00</div><div class="player_mediaTime_total">0:00</div>
+                  </div>
+             
+                  <div class="player_controls">
+                  	  <!-- previous -->
+                      <div class="controls_prev"><img src='media/data/icons/set1/prev.png' alt='controls_prev'/></div>
+                      <!-- pause/play -->
+                      <div class="controls_toggle"><img src='media/data/icons/set1/play.png' alt='controls_toggle'/></div>
+                      <!-- next -->
+                      <div class="controls_next"><img src='media/data/icons/set1/next.png' alt='controls_next'/></div>
+                      
+                 	  <!-- volume -->
+                      <div class="player_volume"><img src='media/data/icons/set1/volume.png' alt='player_volume'/></div>
+                      <div class="volume_seekbar">
+                         <div class="volume_bg"></div>
+                         <div class="volume_level"></div>
+                         <!-- volume tooltip -->
+                  		 <div class="player_volume_tooltip"><p></p></div>
+                      </div>
+                      
+                      <!-- loop -->
+                      <div class="player_loop"><img src='media/data/icons/set1/loop.png' alt='player_loop'/></div>
+                      <!-- shuffle -->
+                      <div class="player_shuffle"><img src='media/data/icons/set1/shuffle.png' alt='player_shuffle'/></div>
+                      <!-- download -->
+                      <div class="player_download"><img src='media/data/icons/set1/download.png' alt="player_download"/></div>
+                  </div>
+                  
+                  <!-- progress -->
+                  <div class="player_progress">
+                      <div class="progress_bg"></div>
+                      <div class="load_progress"></div>
+                      <div class="play_progress"></div>
+                      <!-- progress tooltip -->
+                  	  <div class="player_progress_tooltip"><p></p></div>
+                  </div>
+                  
+             </div>
+              
+             <div class="playlistHolder">
+                 <div class="componentPlaylist">
+                     <div class="playlist_inner">
+                     	<!-- playlist items are appended here! --> 
+                     </div>
+                 </div>
+                 <!-- preloader --> 
+                 <div class="preloader"></div>
+             </div>
+        
+        </div>  
+             
+         <!-- PLAYLIST LIST -->
+        <div id="playlist_list">
+                     
+             <!-- local playlist -->
+             <ul id='playlist1'>
+
+
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dmr.mp3'><a class='playlistNonSelected' href='#'>Doa Masuk Rumah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dmkm.mp3'><a class='playlistNonSelected' href='#'>Doa Masuk Kamar Mandi</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dkkm.mp3'><a class='playlistNonSelected' href='#'>Doa Keluar Kamar Mandi</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dkr.mp3'><a class='playlistNonSelected' href='#'>Doa Keluar Rumah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dkem.mp3'><a class='playlistNonSelected' href='#'>Doa Keluar Masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dkma.mp3'><a class='playlistNonSelected' href='#'>Doa Ketika Mendengar Adzan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dpkm.mp3'><a class='playlistNonSelected' href='#'>Doa pergi Ke Masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dmm.mp3'><a class='playlistNonSelected' href='#'>Doa Masuk Masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/30-doa-perlindungan-kepada-anak.mp3'><a class='playlistNonSelected' href='#'>Doa Perlindungan Kepada Anak</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/53-doa-tamu-kepada-orang-yang-member.mp3'><a class='playlistNonSelected' href='#'>Doa Tamu Kepada Orang yang Memberi Makan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/doa-hisnul-muslim-31-doa-penawar-hati-yang-duka.mp3'><a class='playlistNonSelected' href='#'>Doa Penawar Hati yang Duka</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_694512_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Apabila Ada Angin Ribut</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_735042_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Apabila Anggota Badan Terasa Sakit</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_599177_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Apabila Mendengar Anjing Menggonggong</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_901364_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Bacaan Ketika Bersin</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_513117_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Bacaan Ketika Mendengar Orang Bersin</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_388317_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Bacaan Ketika Mendengar Adzan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_20776_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Bacaan Membalas Orang Lain Ketika Bersin</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_94967_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Bacaan Sebelum Tidur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_640585_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Bacaan Setelah Turun Hujan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_827448_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Bacaan Ketika Bangun Tidur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_479077_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Agar Terhindar Dari Syirik</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_955813_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Apabila Merasa Takut Dan Kesepian</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_859864_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Apabila Turun Hujan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_764009_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Keluar Masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_945054_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Ketika Berbuka Puasa</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_612161_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Ketika Keluar Rumah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_886950_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Ketika Marah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_352491_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Ketika Masuk Rumah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_448000_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Ketika Melepas Pakaian</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_359307_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Masuk Masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_166430_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Masuk Pasar</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_856450_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Melintasi Jalan Tanjakan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_571973_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Meminta Kebaikan Dunia Dan Akhirat</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_161719_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Naik Kendaraan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_624283_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Orang Yang Tertimpa Musibah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_320264_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Pergi Ke Masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_367048_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Sebelum Makan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_143370_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Sebelum Wudhu</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_481079_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Sesudah makan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_832920_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Sesudah Wudhu</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_715353_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Setelah Mayat Dimakamkan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_420495_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Untuk Mengsir Setan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_192547_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Untuk Orang Yang Berbuat Kebaikan Untuk Kita</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_259362_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Ziarah Kubur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_19393_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Keluar WC</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_19551_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Ketika Mengenaikan Pakaian</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_534719_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Doa Masuk Wc</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_453215_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Ketika Ada Halilintar</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_54478_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Ketika Kagum Terhadap Sesuatu</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_338164_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Ketika Mendengar Ayam Berkokok</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/file_309666_1582035625554.mp3'><a class='playlistNonSelected' href='#'>Ucapan Ketika Menjenguk Orang Sakit</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-54-doa-apabila-melihat-permulaan-buah.mp3'><a class='playlistNonSelected' href='#'>Doa apabila melihat permulaan buah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-55-doa-pengantin-kepada-dirinya.mp3'><a class='playlistNonSelected' href='#'>Doa pengantin kepada dirinya</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-56-doa-kepada-pengantin.mp3'><a class='playlistNonSelected' href='#'>Doa kepada pengantin</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-57-doa-ketika-bersin-dan-jawabannya.mp3'><a class='playlistNonSelected' href='#'>Doa ketika bersin dan jawabanya</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-58-doa-pelebur-dosa-majelis.mp3'><a class='playlistNonSelected' href='#'>Doa pelebur dosa majelis</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-59-tuntunan-dan-doa-ketika-marah.mp3'><a class='playlistNonSelected' href='#'>Tuntunan dan doa ketika marah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-60-bacaan-apabila-mencintai-orang-karena-allah-dan-balasannya.mp3'><a class='playlistNonSelected' href='#'>Bacaan apabila mencintai orang karena allah dan balasanya</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-61-doa-naik-kendaraan-dan-bepergian.mp3'><a class='playlistNonSelected' href='#'>Doa naik kendaraan dan bepergian</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-62-doa-masuk-desa-atau-kota.mp3'><a class='playlistNonSelected' href='#'>Doa masuk desa atau kota</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-63-doa-masuk-pasar.mp3'><a class='playlistNonSelected' href='#'>Doa masuk pasar</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-64-doa-agar-bisa-melunasi-utang.mp3'><a class='playlistNonSelected' href='#'>Doa agar bisa melunasi utang</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-65-doa-musafir-kepada-orang-yang-ditinggalkan.mp3'><a class='playlistNonSelected' href='#'>Doa musafir kepada orang yang di tinggalkan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-66-doa-orang-mukim-kepada-musafir.mp3'><a class='playlistNonSelected' href='#'>Doa orang mukmin kepada musafir</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-67-doa-musafir-ketika-kembali.mp3'><a class='playlistNonSelected' href='#'>Doa musafir ketika kembali</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-68-doa-apabila-ada-sesuatu-yang-menyenangkan.mp3'><a class='playlistNonSelected' href='#'>Doa apabila ada sesuatu yang menyenangkan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-69-doa-apabila-ada-sesuatu-yang-tidak-menyenangkan.mp3'><a class='playlistNonSelected' href='#'>Doa apabila ada sesuatu yang tidak menyenangkan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-70-doa-talbiyah.mp3'><a class='playlistNonSelected' href='#'>Doa talbiyah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-71-doa-antara-rukun-yamani-dan-hajar-aswad.mp3'><a class='playlistNonSelected' href='#'>Doa antara rukun nyamani dan hajar  aswad</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-72-doa-ketika-di-atas-bukit-shafa-dan-marwah.mp3'><a class='playlistNonSelected' href='#'>Doa ketika diatas bukit shafa dan marwah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-73-doa-pada-hari-arafah.mp3'><a class='playlistNonSelected' href='#'>Doa pada hari arafah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-74-doa-ketika-di-masy-aril-haram.mp3'><a class='playlistNonSelected' href='#'>Doa ketika di masjidil haram</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-74-doa-ketika-di-masy-aril-haram.mp3'><a class='playlistNonSelected' href='#'>Doa ketika di masjidil haram</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-01-muqaddimah.mp3'><a class='playlistNonSelected' href='#'>Muqaddimah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-02-doa-bangun-tidur.mp3'><a class='playlistNonSelected' href='#'>Doa Bangun Tidur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-03-doa-masuk-kamar-mandi.mp3'><a class='playlistNonSelected' href='#'>Doa masuk kamar mandi</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-04-doa-keluar-kamar-mandi.mp3'><a class='playlistNonSelected' href='#'>Doa keluar kamar mandi</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-05-doa-setelah-wudhu.mp3'><a class='playlistNonSelected' href='#'>Doa setelah wudhu</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-06-doa-keluar-rumah.mp3'><a class='playlistNonSelected' href='#'>Doa keluar rumah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-07-doa-masuk-rumah.mp3'><a class='playlistNonSelected' href='#'>Doa masuk rumah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-08-doa-pergi-ke-masjid.mp3'><a class='playlistNonSelected' href='#'>Doa pergi ke masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-09-doa-masuk-masjid.mp3'><a class='playlistNonSelected' href='#'>Doa masuk masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-10-doa-keluar-masjid.mp3'><a class='playlistNonSelected' href='#'>Doa keluar masjid</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-11-doa-ketika-mendengarkan-adzan.mp3'><a class='playlistNonSelected' href='#'>Doa ketika mendengar adzan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-12-doa-istiftah.mp3'><a class='playlistNonSelected' href='#'>Doa Istiftah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-13-doa-istiftah-ketika-shalat-qiyamul-lail.mp3'><a class='playlistNonSelected' href='#'>Doa Istiftah ketika shalat qiyamul lail</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-14-doa-ruku.mp3'><a class='playlistNonSelected' href='#'>Doa ruku</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-15-doa-bangun-dari-ruku.mp3'><a class='playlistNonSelected' href='#'>Doa bangun dari ruku</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-16-doa-sujud.mp3'><a class='playlistNonSelected' href='#'>Doa Sujud</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-17-doa-sujud-ketika-shalat-qiyamul-lail.mp3'><a class='playlistNonSelected' href='#'>Doa sujud ketika shalat qiyamul lail</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-18-doa-sujud-tilawah.mp3'><a class='playlistNonSelected' href='#'>Doa sujud tilawah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-19-doa-duduk-di-antara-dua-sujud.mp3'><a class='playlistNonSelected' href='#'>Doa duduk di antara dua sujud</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-20-doa-tasyahud.mp3'><a class='playlistNonSelected' href='#'>Doa tasyahud</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-21-doa-setelah-tasyahud-akhir-sebelum-salam.mp3'><a class='playlistNonSelected' href='#'>Doa setelah tasyahud akhit sebelum salam</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-22-dzikir-setelah-shalat.mp3'><a class='playlistNonSelected' href='#'>Dzikir setelah shalat</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-23-doa-shalat-istikharah.mp3'><a class='playlistNonSelected' href='#'>Doa shalat istikharah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-24-dzikir-pagi-dan-petang.mp3'><a class='playlistNonSelected' href='#'>Dzikir pagi dan petang</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-25-doa-ketika-di-malam-hari.mp3'><a class='playlistNonSelected' href='#'>Doa ketika di malam hari</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-26-doa-sebelum-tidur.mp3'><a class='playlistNonSelected' href='#'>Doa sebelum tidur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-27-doa-apabila-merasa-takut-dan-kesepian-ketika-tidur.mp3'><a class='playlistNonSelected' href='#'>Doa ketika merasa takut dan kesepian ketika tidur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-28-doa-qunut-witir.mp3'><a class='playlistNonSelected' href='#'>Doa qunut witir</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-29-doa-setelah-shalat-witir.mp3'><a class='playlistNonSelected' href='#'>Doa setelah shalat witir</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-30-doa-perlindungan-kepada-anak.mp3'><a class='playlistNonSelected' href='#'>Doa perlindungan kepada anak</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-31-doa-penawar-hati-yang-duka.mp3'><a class='playlistNonSelected' href='#'>Doa penawar hati yang duka</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-32-doa-orang-yang-mengalami-kesulitan.mp3'><a class='playlistNonSelected' href='#'>Doa orang yang mengalami kesulitan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-33-doa-untuk-kesedihan-yang-mendalam.mp3'><a class='playlistNonSelected' href='#'>Doa untuk kesedihan yang mendalam</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-34-doa-apabila-ada-orang-meninggal-dan-apabila-tertimpa-musibah.mp3'><a class='playlistNonSelected' href='#'>Doa apabila ada orang meninggal dan apabila tertimpa musibah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-35-mengajari-orang-yang-akan-meninggal-dunia-talqin.mp3'><a class='playlistNonSelected' href='#'>Doa mengajari orang yang akan meninggal (talqin)</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-36-doa-memejamkan-mayat-dan-takziyah.mp3'><a class='playlistNonSelected' href='#'>Doa memejamkan mayat dan takziyah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-37-doa-dalam-shalat-jenazah.mp3'><a class='playlistNonSelected' href='#'>Doa dalam  shalat jenazah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-38-doa-untuk-mayat-anak-kecil.mp3'><a class='playlistNonSelected' href='#'>Doa untuk mayat anak kecil</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-39-doa-untuk-belasungkawa.mp3'><a class='playlistNonSelected' href='#'>Doa untuk belasungkawa</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-40-doa-ketika-memasukkan-mayat-ke-liang-kubur.mp3'><a class='playlistNonSelected' href='#'>Doa ketika masukan mayat ke liang kubur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-41-doa-setelah-mayat-dimakamkan.mp3'><a class='playlistNonSelected' href='#'>Doa setelah mayat dimakamkan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-42-doa-ziarah-kubur.mp3'><a class='playlistNonSelected' href='#'>Doa ziarah kubur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-43-doa-apabila-ada-angin-ribut.mp3'><a class='playlistNonSelected' href='#'>Doa apabila ada angin ribut</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-44-doa-ketika-ada-halilintar.mp3'><a class='playlistNonSelected' href='#'>Doa ketika ada halilintar</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-45-doa-untuk-minta-hujan.mp3'><a class='playlistNonSelected' href='#'>Doa untuk minta hujan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-46-doa-apabila-hujan-turun.mp3'><a class='playlistNonSelected' href='#'>Doa apa bila hujan turun</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-48-doa-berbuka-puasa.mp3'><a class='playlistNonSelected' href='#'>Doa berbuka puasa</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-49-doa-apabila-berbuka-di-rumah-orang.mp3'><a class='playlistNonSelected' href='#'>Doa apabia berbka di rumah orang</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-50-doa-sebelum-makan.mp3'><a class='playlistNonSelected' href='#'>Doa sebelum makan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-51-doa-apabila-lupa-berdoa-sebelum-makan.mp3'><a class='playlistNonSelected' href='#'>Doa apabila lupa berdoa sebelum makan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-52-doa-setelah-makan.mp3'><a class='playlistNonSelected' href='#'>Doa setelah makan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/sa-ad-al-ghomidi-53-doa-tamu-kepada-orang-yang-memberi-makan.mp3'><a class='playlistNonSelected' href='#'>Doa tamu kepada orang yang memberi makan</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/mishari-rasheed-01-doa-dan-dzikir-setelah-shalat-wajib.mp3'><a class='playlistNonSelected' href='#'>Doa dan Dzikir setelah shalat wajib</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/mishari-rasheed-02-dzikir-rutin-di-pagi-hari.mp3'><a class='playlistNonSelected' href='#'>Dzikir Pagi</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/mishari-rasheed-03-dzikir-rutin-di-sore-hari.mp3'><a class='playlistNonSelected' href='#'>Dzikir Petang/Sore</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/mishari-rasheed-04-dzikir-sebelum-tidur.mp3'><a class='playlistNonSelected' href='#'>Dzikir Sebelum Tidur</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/dsw.mp3'><a class='playlistNonSelected' href='#'>Doa Setelah Wudhu</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/doaruku.mp3'><a class='playlistNonSelected' href='#'>Doa Ruku'</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/doabangundariruku.mp3'><a class='playlistNonSelected' href='#'>Doa Bangun Dari Ruku'</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/doasujud.mp3'><a class='playlistNonSelected' href='#'>Doa Sujud</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/doadudukdiantaraduasujud.mp3'><a class='playlistNonSelected' href='#'>Doa Duduk Di Antara Dua Sujud</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/doatasyahud.mp3'><a class='playlistNonSelected' href='#'>Doa Tasyahud</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/doatasyahudakhirsebelumsalam.mp3'><a class='playlistNonSelected' href='#'>Doa Setelah Tasyahud Akhir Sebelum Salam</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-penenang-jiwa.mp3'><a class='playlistNonSelected' href='#'>Zikir Penenang Jiwa</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-selawat-penenang-hati.mp3'><a class='playlistNonSelected' href='#'>Zikir selawat penenang hati</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-taubat-astaghfirullah.mp3'><a class='playlistNonSelected' href='#'>Zikir Taubat</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-taubat-ilahilastulil-firdaus.mp3'><a class='playlistNonSelected' href='#'>Zikir Taubat ilahilastuli</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-ya-allahu-ya-allah.mp3'><a class='playlistNonSelected' href='#'>Zikir Ya Allahu Ya Allahu</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-terapi.mp3'><a class='playlistNonSelected' href='#'>Zikir Terapi</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-taubat-yang-sungguh-sedih.mp3'><a class='playlistNonSelected' href='#'>Zikir Taubat yang sungguh sedih</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-selawat-penenang-hati.mp3'><a class='playlistNonSelected' href='#'>Zikir Selawat Penenang</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-astaghfirullaha-innallaha-kanatawwaba.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat astaghfirullah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-doa-taubat.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat Doa Taubat</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-lailahaillallah-al-malikul-haqqul-mubin.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat Lailahaillah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-sufi.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat Sufi</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-ya-latif.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat Ya Latif</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-penenang-hati-la-hawla-wala-quwwata-illa-billah.mp3'><a class='playlistNonSelected' href='#'>Zikir Penenang Hati</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-hasbiallah.mp3'><a class='playlistNonSelected' href='#'>Zikir Hasbiallah</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-doa-nabi-yunus.mp3'><a class='playlistNonSelected' href='#'>Zikir Doa Nabi Yunus</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-doa-pujian-di-waktu-pagi-dan-petang.mp3'><a class='playlistNonSelected' href='#'>Zikir Doa Pujian</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat 1</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-2.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat 2</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-3.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat 3</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-munajat-4.mp3'><a class='playlistNonSelected' href='#'>Zikir Munajat 4</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/zikir-doa-2.mp3'><a class='playlistNonSelected' href='#'>Zikir Doa</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/asma-ul-husna-zikir.mp3'><a class='playlistNonSelected' href='#'>Asmaul Husna Zikir</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/selawat-fatih.mp3'><a class='playlistNonSelected' href='#'>Selawat Fatih</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/selawat-ke-atas-nabi-muhammad-s-a-w.mp3'><a class='playlistNonSelected' href='#'>Selawat Atas Nabi Muhamad SAW</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/selawat-pelindung-diri.mp3'><a class='playlistNonSelected' href='#'>Selawat Pelindung Diri</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/selawat-pembuka-rezeki.mp3'><a class='playlistNonSelected' href='#'>Selawat Pembuka Rejeki</a></li>
+                 <li class= 'playlistItem' data-type='local' data-mp3='https://ia601402.us.archive.org/21/items/duabledek/selawat-sollaalaikallah-huya-adnani.mp3'><a class='playlistNonSelected' href='#'>Selawat shalalaikallah</a></li>
+
+
+
+
+             </ul>
+             
+             <!-- DATABASE EXAMPLES -->
+             <ul id='playlist_d1'>
+                 <li class= 'playlistItem' data-type='database_data' data-path='ap_hap' data-table='sound'></li> 
+             </ul>
+             <ul id='playlist_d2'>
+                 <li class= 'playlistItem' data-type='database_html' data-path='ap_hap' data-table='sound1'></li> 
+             </ul>
+             <ul id='playlist_d3'>
+                 <li class= 'playlistItem' data-type='database_html' data-path='ap_hap' data-table='sound1' data-limit='3'></li> 
+             </ul>
+             <ul id='playlist_d4'>
+                 <li class= 'playlistItem' data-type='database_html' data-path='ap_hap' data-table='sound1' data-range='1,5'></li> 
+             </ul>
+             
+
+        </div>
+        
+	</body>
+</html>
